@@ -17,16 +17,16 @@ steps:
     npm run build
   displayName: 'Install dependencies and build'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: '$(Build.SourcesDirectory)/.next'
-    artifactName: 'nextjs-build'
-  displayName: 'Publish build artifacts'
+# - task: PublishBuildArtifacts@1
+#   inputs:
+#     pathToPublish: '$(Build.SourcesDirectory)/.next'
+#     artifactName: 'nextjs-build'
+#   displayName: 'Publish build artifacts'
 
-- task: DownloadPipelineArtifact@2
-  inputs:
-    artifact: 'nextjs-build'
-    path: '$(Pipeline.Workspace)/nextjs-build'
+# - task: DownloadPipelineArtifact@2
+#   inputs:
+#     artifact: 'nextjs-build'
+#     path: '$(Pipeline.Workspace)/nextjs-build'
 
 - task: AzureWebApp@1
   inputs:
