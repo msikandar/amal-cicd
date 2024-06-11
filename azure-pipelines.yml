@@ -12,10 +12,10 @@ steps:
     versionSpec: '16.x'
   displayName: 'Install Node.js'
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'Install dependencies and build'
+# - script: |
+#     npm install
+#     npm run build
+#   displayName: 'Install dependencies and build'
 
 # - task: PublishBuildArtifacts@1
 #   inputs:
@@ -28,10 +28,10 @@ steps:
 #     artifact: 'nextjs-build'
 #     path: '$(Pipeline.Workspace)/nextjs-build'
 
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: 'my-azure-connection'
-    appType: 'webAppLinux'
-    appName: 'amalcicd'
-    package: '$(Pipeline.Workspace)/nextjs-build'
-  displayName: 'Deploy to Azure Web App'
+# - task: AzureWebApp@1
+#   inputs:
+#     azureSubscription: 'my-azure-connection'
+#     appType: 'webAppLinux'
+#     appName: 'amalcicd'
+#     package: '$(Pipeline.Workspace)/nextjs-build'
+#   displayName: 'Deploy to Azure Web App'
