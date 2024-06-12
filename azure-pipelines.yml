@@ -23,15 +23,19 @@ steps:
     artifactName: 'nextjs-build'
   displayName: 'Publish build artifacts'
 
-- task: DownloadPipelineArtifact@2
-  inputs:
-    artifact: 'nextjs-build'
-    path: '$(Pipeline.Workspace)/nextjs-build'
-
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: 'my-azure-connection'
-    appType: 'webAppLinux'
-    appName: 'amalcicd'
-    package: '$(Pipeline.Workspace)/nextjs-build'
+- job: Deploy
   displayName: 'Deploy to Azure Web App'
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      artifact: 'nextjs-build'
+      path: '$(Pipeline.Workspace)/nextjs-build'
+
+  - task: AzureWebApp@1
+    inputs:
+      azureSubscription: 'your-azure-connection'
+      appType: 'webAppLinux'
+      appName: 'amalcicd'
+      package: '$(Pipeline.Workspace)/nextjs-build'
