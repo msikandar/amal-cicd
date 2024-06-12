@@ -32,6 +32,6 @@ steps:
   inputs:
     azureSubscription: 'my-azure-connection'
     appType: 'webAppLinux'
-    appName: 'amalcicd'
+    appName: 'amalcicd1'
     package: '$(Pipeline.Workspace)/nextjs-build'
   displayName: 'Deploy to Azure Web App'
