@@ -12,26 +12,26 @@ steps:
     versionSpec: '18.x'
   displayName: 'Install Node.js'
 
-# - script: |
-#     npm install
-#     npm run build
-#   displayName: 'Install dependencies and build'
+- script: |
+    npm install
+    npm run build
+  displayName: 'Install dependencies and build'
 
-# - task: PublishBuildArtifacts@1
-#   inputs:
-#     pathToPublish: '$(Build.SourcesDirectory)/.next'
-#     artifactName: 'nextjs-build'
-#   displayName: 'Publish build artifacts'
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.SourcesDirectory)/.next'
+    artifactName: 'nextjs-build'
+  displayName: 'Publish build artifacts'
 
-# - task: DownloadPipelineArtifact@2
-#   inputs:
-#     artifact: 'nextjs-build'
-#     path: '$(Pipeline.Workspace)/nextjs-build'
+- task: DownloadPipelineArtifact@2
+  inputs:
+    artifact: 'nextjs-build'
+    path: '$(Pipeline.Workspace)/nextjs-build'
 
-# - task: AzureWebApp@1
-#   inputs:
-#     azureSubscription: 'my-azure-connection'
-#     appType: 'webAppLinux'
-#     appName: 'amalcicd'
-#     package: '$(Pipeline.Workspace)/nextjs-build'
-#   displayName: 'Deploy to Azure Web App'
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'my-azure-connection'
+    appType: 'webAppLinux'
+    appName: 'amalcicd'
+    package: '$(Pipeline.Workspace)/nextjs-build'
+  displayName: 'Deploy to Azure Web App'
