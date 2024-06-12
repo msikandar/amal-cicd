@@ -23,7 +23,7 @@ steps:
     artifactName: 'nextjs-build'
   displayName: 'Publish build artifacts'
 
-- job: Deploy
+- jobs: Deploy
   displayName: 'Deploy to Azure Web App'
   pool:
     vmImage: 'ubuntu-latest'
