@@ -12,10 +12,10 @@ variables:
   azureSubscription: 'd789dfaf-221e-4acc-b16b-4e59fa5c8491'
 
   # Web app name
-  webAppName: 'amalcicd1'
+  webAppName: 'amalcicd'
 
   # Environment name
-  environmentName: 'amalcicd1'
+  environmentName: 'amalcicd'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -63,7 +63,7 @@ stages:
               appType: webAppLinux
               WebAppName: $(webAppName)
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              RuntimeStack: 'NODE|20.14'
+              RuntimeStack: 'NODE|20'
               StartupCommand: 'npm run start'
               ScriptType: 'Inline Script'
               InlineScript: |
