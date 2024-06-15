@@ -4,9 +4,9 @@ trigger:
       - main
 
 variables:
-  azureSubscription: 'd87143b4-d8d5-4d89-92b4-8542e0c0cd06'
-  webAppName: 'amalcicd'
-  environmentName: 'amalcicd'
+  azureSubscription: 'd789dfaf-221e-4acc-b16b-4e59fa5c8491'
+  webAppName: 'amalcicd1'
+  environmentName: 'amalcicd1'
   vmImageName: 'ubuntu-latest'
 
 stages:
@@ -26,14 +26,17 @@ stages:
     - script: |
         npm install -g npm@latest
       displayName: 'Install latest npm'
+      workingDirectory: $(Build.SourcesDirectory)
 
     - script: |
         npm install
       displayName: 'Install dependencies'
+      workingDirectory: $(Build.SourcesDirectory)
 
     - script: |
         npm run build
       displayName: 'Build the project'
+      workingDirectory: $(Build.SourcesDirectory)
 
     - task: ArchiveFiles@2
       displayName: 'Archive files'
@@ -70,6 +73,7 @@ stages:
               npm install
               npm run build --if-present
             displayName: 'Install dependencies and build'
+            workingDirectory: $(Pipeline.Workspace)/drop
 
           - task: AzureRmWebAppDeployment@4
             displayName: 'Azure App Service Deploy: $(webAppName)'
