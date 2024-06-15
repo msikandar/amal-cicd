@@ -31,6 +31,10 @@ stages:
               node -v
               npm -v
             displayName: 'Check Node.js and npm versions'
+            
+          - script: |
+              npm install -g npm@latest  # Update npm to the latest version
+            displayName: 'Update npm'
 
           - script: |
               npm ci  # Clean install
