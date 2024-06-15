@@ -1,90 +1,175 @@
 # Node.js React Web App to Linux on Azure
+
 # Build a Node.js React app and deploy it to Azure as a Linux web app.
+
 # Add steps that analyze code, save build artifacts, deploy, and more:
+
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
+
+
 trigger:
+
   - main
 
+
+
 variables:
+
   azureSubscription: "2ef95f0a-3b21-4cf7-bc97-9bbd1d7c6407"
+
   webAppName: "amalcicd"
+
   environmentName: "amalcicd"
+
   vmImageName: "ubuntu-latest"
-  nodeVersion: "20.x" # Adjust Node.js version as per your project requirements
+
+
 
 stages:
+
   - stage: Build
+
     displayName: "Build Stage"
+
     jobs:
+
       - job: Build
+
         displayName: "Build"
+
         pool:
+
           vmImage: $(vmImageName)
+
+
 
         steps:
+
           - task: NodeTool@0
+
             inputs:
-              versionSpec: $(nodeVersion)
+
+              versionSpec: "20.x" # Adjust Node.js version as per your project requirements
+
             displayName: "Install Node.js"
 
+
+
           - script: |
+
               node -v
+
               npm -v
-            displayName: "Check Node.js and npm versions"
+
+            displayName: 'Check Node.js and npm versions'
+
             
+
           - script: |
+
               npm install -g npm@latest  # Update npm to the latest version
-            displayName: "Update npm"
+
+            displayName: 'Update npm'
+
+
 
           - script: |
+
               npm ci  # Clean install
+
               npm cache clean --force
-            displayName: "Clean npm cache"
+
+            displayName: 'Clean npm cache'
+
+
 
           - script: |
+
               npm install
+
               npm run build
+
             displayName: "Install dependencies and build"
+
             workingDirectory: "$(System.DefaultWorkingDirectory)" # Ensure correct working directory
 
+
+
           - task: ArchiveFiles@2
+
             displayName: "Archive files"
+
             inputs:
+
               rootFolderOrFile: "$(System.DefaultWorkingDirectory)/" # Adjust if build artifacts are in a different folder
+
               includeRootFolder: false
+
               archiveType: "zip"
+
               archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip"
+
               replaceExistingArchive: true
 
+
+
           - publish: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip"
+
             artifact: "drop"
 
-  - stage: Deploy
-    displayName: "Deploy Stage"
-    dependsOn: Build
-    condition: succeeded()
-    jobs:
-      - deployment: Deploy
-        displayName: "Deploy"
-        environment: $(environmentName)
-        pool:
-          vmImage: $(vmImageName)
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - task: AzureRmWebAppDeployment@4
-                  displayName: "Azure App Service Deploy: $(webAppName)"
-                  inputs:
-                    azureSubscription: $(azureSubscription)
-                    appType: "webAppLinux"
-                    WebAppName: $(webAppName)
-                    packageForLinux: "$(Pipeline.Workspace)/drop/$(Build.BuildId).zip"
-                    RuntimeStack: "NODE|20-lts" # Use the appropriate Node.js version
-                    StartupCommand: "npm start" # Ensure this matches your package.json start script
 
-                - script: |
-                    npm install
-                    npm run build --if-present
-                  displayName: "Install dependencies and build (if needed)"
+
+  - stage: Deploy
+
+    displayName: "Deploy Stage"
+
+    dependsOn: Build
+
+    condition: succeeded()
+
+    jobs:
+
+      - deployment: Deploy
+
+        displayName: "Deploy"
+
+        environment: $(environmentName)
+
+        pool:
+
+          vmImage: $(vmImageName)
+
+        strategy:
+
+          runOnce:
+
+            deploy:
+
+              steps:
+
+                - task: AzureRmWebAppDeployment@4
+
+                  displayName: "Azure App Service Deploy: $(webAppName)"
+
+                  inputs:
+
+                    azureSubscription: $(azureSubscription)
+
+                    appType: "webAppLinux"
+
+                    WebAppName: $(webAppName)
+
+                    packageForLinux: "$(Pipeline.Workspace)/drop/$(Build.BuildId).zip"
+
+                    RuntimeStack: "NODE|20.x" # Adjust Node.js version as per your project requirements
+
+                    StartupCommand: "npm run start"
+
+                    ScriptType: "Inline Script"
+
+                    InlineScript: |
+
+                      npm install
+
+                      npm run build --if-present
