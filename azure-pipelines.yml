@@ -33,6 +33,7 @@ stages:
             displayName: 'Check Node.js and npm versions'
 
           - script: |
+              npm ci  # Clean install
               npm cache clean --force
             displayName: 'Clean npm cache'
 
