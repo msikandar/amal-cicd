@@ -36,7 +36,7 @@ stages:
           - task: ArchiveFiles@2
             displayName: "Archive files"
             inputs:
-              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/build" # Adjust if build artifacts are in a different folder
+              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/" # Adjust if build artifacts are in a different folder
               includeRootFolder: false
               archiveType: "zip"
               archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip"
