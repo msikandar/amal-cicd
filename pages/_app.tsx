@@ -1,8 +1,9 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import Conditional from "./components/common/Conditional";
+import Conditional from "../components/common/Conditional";
 import { NextComponentType } from "next";
 import { SessionProvider } from "next-auth/react";
+import Auth from "../components/auth/Auth";
 
 type CustomAppProps = AppProps & {
   Component: NextComponentType & { noAuth?: boolean };
@@ -11,14 +12,15 @@ const App: React.FC<CustomAppProps> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
-  console.log(Component);
   return (
     <Conditional
-      test={true}
+      test={!Component.noAuth}
       fallback={<Component {...pageProps} />}
     >
       <SessionProvider session={session}>
-        <Component {...pageProps} />
+        <Auth>
+          <Component {...pageProps} />
+        </Auth>
       </SessionProvider>
     </Conditional>
   );
