@@ -28,7 +28,7 @@ export default function Home() {
             ) : null}
           </div>
           {status === "authenticated" && (
-            <button onClick={() => signOut()}>Sign out</button>
+            <button onClick={() => signOut("github")}>Sign out</button>
           )}
         </div>
         <div className={styles.description}>
