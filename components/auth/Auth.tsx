@@ -12,6 +12,22 @@ const Auth: React.FC<PropsWithChildren> = ({ children }) => {
     }
   }, [isUser, status, session]);
 
+  useEffect(() => {
+    if (isUser && !session?.error) {
+      const tokenExpires = session?.token?.expires;
+      const tokenExpiresInMilliseconds = tokenExpires
+        ? tokenExpires - Date.now()
+        : null;
+      if (tokenExpiresInMilliseconds && tokenExpiresInMilliseconds > 0) {
+        const timeoutId = setTimeout(
+          () => update(),
+          tokenExpiresInMilliseconds
+        );
+        return () => clearTimeout(timeoutId);
+      }
+    }
+  }, [isUser, session, update]);
+
   if (isUser) {
     return children;
   }
