@@ -17,7 +17,7 @@ const App: React.FC<CustomAppProps> = ({
       test={!Component.noAuth}
       fallback={<Component {...pageProps} />}
     >
-      <SessionProvider session={session}>
+      <SessionProvider session={session} refetchOnWindowFocus={false}>
         <Auth>
           <Component {...pageProps} />
         </Auth>

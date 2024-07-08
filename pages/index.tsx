@@ -1,13 +1,17 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { useMemo } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const { data: session, status } = useSession()
-  console.log(session, status)
+  const { data: session, status } = useSession();
+
+  // Memoize session data
+  const memoizedSession = useMemo(() => session, [session]);
+
   return (
     <>
       <Head>
@@ -17,8 +21,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
+        <div>
+          <div>
+            {memoizedSession ? (
+              <h4>Signed in as {memoizedSession.user?.name}</h4>
+            ) : null}
+          </div>
+          {status === "authenticated" && (
+            <button onClick={() => signOut()}>Sign out</button>
+          )}
+        </div>
         <div className={styles.description}>
-          
           <p>
             Get started by editing&nbsp;
             <code className={styles.code}>pages/index.tsx</code>
