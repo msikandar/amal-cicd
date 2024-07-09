@@ -5,13 +5,16 @@ const Auth: React.FC<PropsWithChildren> = ({ children }) => {
   const { data: session, status, update } = useSession();
   const isUser = !!session?.user;
 
+  // Effect to handle sign-in
   useEffect(() => {
     if (status === "loading") return;
-    if (!isUser || session.error === "RefereshAccessTokenError") {
+    // Sign in if there's no user or if there's a token refresh error
+    if (!isUser || session.error === "RefreshAccessTokenError") {
       signIn("github");
     }
   }, [isUser, status, session]);
 
+  // Effect to handle token refresh
   useEffect(() => {
     if (isUser && !session?.error) {
       const tokenExpires = session?.token?.expires;
@@ -28,11 +31,12 @@ const Auth: React.FC<PropsWithChildren> = ({ children }) => {
     }
   }, [isUser, session, update]);
 
+  // Render children if user is signed in, otherwise show loading
   if (isUser) {
-    return children;
+    return <>{children}</>;
   }
 
-  return <div>Loadin Session...</div>;
+  return <div>Loading Session...</div>;
 };
 
 export default Auth;

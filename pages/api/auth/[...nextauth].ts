@@ -10,7 +10,6 @@ export const authOptions = {
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
     }),
-    // ...add more providers here
   ],
   pages: { signIn: "/", signOut: "/", error: "/session-error" },
   callbacks: {
