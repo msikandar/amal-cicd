@@ -32,8 +32,8 @@ variables:
   NEXTAUTH_URL: 'https://amalcicd.azurewebsites.net/'
   NEXTAUTH_SECRET: 'YOUR_SECRET'
 
-  GITHUB_ID: 'Ov23liHdLhsBCUcHNDz9'
-  GITHUB_SECRET: 'e0e8d92a1ed2f7af1f77d877dba965e66b34854d'
+  GITHUB_ID: 'Ov23li5gGXyrXbn8Tefx'
+  GITHUB_SECRET: '4f7f826a51fa1a13630a254187999e083e355814'
 
 stages:
 - stage: Build
