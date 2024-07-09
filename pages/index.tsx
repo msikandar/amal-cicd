@@ -28,7 +28,13 @@ export default function Home() {
             ) : null}
           </div>
           {status === "authenticated" && (
-            <button onClick={() => signOut()}>Sign out</button>
+            <button
+              onClick={async () =>
+                await signOut({ callbackUrl: "/api/auth/logout" })
+              }
+            >
+              Sign out
+            </button>
           )}
         </div>
         <div className={styles.description}>
