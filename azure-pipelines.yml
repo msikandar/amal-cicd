@@ -33,7 +33,7 @@ variables:
   NEXTAUTH_SECRET: 'YOUR_SECRET'
 
   GITHUB_ID: 'Ov23liHdLhsBCUcHNDz9'
-  GITHUB_SECRET: 'bd9fcbfccfe579a32171c839ff8632b614e6e73b'
+  GITHUB_SECRET: 'e0e8d92a1ed2f7af1f77d877dba965e66b34854d'
 
 stages:
 - stage: Build
